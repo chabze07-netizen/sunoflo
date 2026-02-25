@@ -157,43 +157,59 @@ class SunoFLO:
         return bytes(track)
     
     def generate_lyrics(self, advanced=True, topic="flex"):
-        """Generate lyrics"""
-        cats = list(RHYMES.keys())
-        lines = []
+        """Generate clean, non-repetitive lyrics"""
         
-        for i in range(8):
-            cat = cats[i // 2]
-            rhyme = random.choice(RHYMES[cat])
-            
-            templates = {
-                "flex": f"I been stackin' {rhyme}, got my {rhyme} right",
-                "money": f"They don't know the grind, but my {rhyme} so tight",
-                "love": f"Shorty got me feeling {rhyme}, every {rhyme}",
-                "struggle": f"Came from the bottom where the struggle {rhyme}",
-            }
-            
-            line = templates.get(topic, templates["flex"])
-            
-            if advanced:
-                line += ", been that way since day one"
-                line = line.upper()
-            
-            lines.append(line)
+        # Clean rhyme sets
+        A = ["back", "rack", "stack", "trap", "clap", "snap"]
+        B = ["love", "above", "stuff", "touch", "clutch"]
+        C = ["time", "mine", "fine", "wine", "shine"]
+        D = ["man", "plan", "can", "fan", "stand"]
+        E = ["real", "feel", "deal", "wheel", "heal"]
+        F = ["day", "way", "play", "say", "stay"]
         
-        lyrics = f"""[HOOK]
-{chr(10).join(lines[:4])}
-
-[VERSE 1]
-{chr(10).join(lines)}
-
-[HOOK]
-{chr(10).join(lines[:4])}"""
+        # Hook - catchy, short
+        hook_lines = [
+            "I BEEN HUSTLIN', NOW I WIN",
+            "THEY DON'T KNOW WHERE I'VE BEEN", 
+            "STACKIN' GUAP, NEVER LOSE",
+            "FLEXIN' HARD, NO EXCUSES",
+        ]
+        
+        # Verse - storytelling
+        verse_lines = [
+            f"Started with nothin' in my hand, {A[0]}",
+            f"Now I got bands across the land, {A[1]}",
+            f"They was talkin' noise, I understood, {B[0]}",
+            f"Now they see the guap and it's all good, {B[1]}",
+            f"Late nights grindin', no sleep, {C[0]}",
+            f"Now the money flowin' deep, {C[1]}",
+            f"From the struggle, I came far, {D[0]}",
+            f"Now I'm who they are, {D[1]}",
+        ]
         
         if advanced:
-            # Remove cliches
-            for word in CLICHE_WORDS:
-                if word in lyrics.lower() and word in BETTER_ALTERNATIVES:
-                    lyrics = re.sub(r'\b' + word + r'\b', random.choice(BETTER_ALTERNATIVES[word]), lyrics, flags=re.IGNORECASE)
+            # Add more variety for advanced
+            verse_lines.extend([
+                f"Every dollar that I make is earned, {E[0]}",
+                f"From the dirt, now I yearn, {E[1]}",
+                f"Watch me as I elevate, {F[0]}",
+                f"Haters can't relate, {F[1]}",
+            ])
+        
+        hook = "\n".join(hook_lines)
+        verse = "\n".join(verse_lines[:8])  # Limit to 8 lines
+        
+        lyrics = f"""[HOOK]
+{hook}
+
+[VERSE 1]
+{verse}
+
+[HOOK]
+{hook}
+
+[OUTRO]
+Started with nothin' in my hand"""
         
         return lyrics
     
